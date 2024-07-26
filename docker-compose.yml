@@ -1,6 +1,8 @@
-version: '2'
+version: "2"
 services:
   web:
     build: .
-    ports: 
-      - "3001:3001"
+    ports:
+      - "3001"
+    environment:
+      VIRTUAL_HOST: "web.post-acceptor.docker"

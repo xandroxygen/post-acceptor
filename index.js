@@ -10,6 +10,17 @@ app.post("/webhook", (req, res) => {
     type: "webhook",
     body: req.body,
     contentType: req.get("Content-Type"),
+    auth: req.get("Authorization"),
+  });
+  res.status(200).send();
+});
+
+app.put("/webhook", (req, res) => {
+  console.log({
+    type: "webhook",
+    body: req.body,
+    contentType: req.get("Content-Type"),
+    auth: req.get("Authorization"),
   });
   res.status(200).send();
 });
@@ -49,6 +60,22 @@ app.get("/fetch", (_, res) => {
   res.send({ hello: "world" });
 });
 
+app.get("/api/v2/lti/tools", (_, res) => {
+  res.send({ action: "products" });
+});
+
+app.get("/api/v2/lti/tools_by_display_group", (_, res) => {
+  res.send({ action: "categories" });
+});
+
+app.get("/api/v2/lti/filters", (_, res) => {
+  res.send({ action: "filters" });
+});
+
+app.get("/api/v2/lti/tools/:id", (_, res) => {
+  res.send({ action: "product show" });
+});
+
 app.get("/", (_, res) => {
   console.log("get");
   res.send("hello world");
@@ -65,12 +92,12 @@ app.get("/test_file", (_, res) => {
   });
 });
 
-const clientId = "20000000000048";
+const clientId = "10000000000009";
 const clientSecret =
-  "4tzJcTRBX4IxbkfnKBIzzGRGoz59rTrVLYEFGaSYl07nUaD5TTqCsLv45BSjKO5X";
+  "SpUF8tSqbGynTqJMGECp9T9MMtq306Q2grDAUewO2batgOqrPFLlvRPtGvghseGa";
 const redirectUrl = "http://web.post-acceptor.docker/oauth_redirect";
 const oobUri = "urn:ietf:wg:oauth:2.0:oob";
-const canvasHost = "cmcxchild.canvas.docker";
+const canvasHost = "canvas.docker";
 
 app.get("/oauth_start", (_, res) => {
   // Step 0: provide way to initiate OAuth flow
@@ -128,5 +155,20 @@ app.get("/oauth_redirect", async (req, res) => {
 });
 
 const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+app.get("/bigbluebutton/api/create", async (req, res) => {
+  console.log(req.query);
+  res.status(200).send();
+});
+
+app.get("/bigbluebutton/api/join", async (req, res) => {
+  console.log(req.query);
+  res.status(200).send();
+});
+
+app.get("/bigbluebutton/api/end", async (req, res) => {
+  console.log(req.query);
+  res.status(200).send();
+});
 
 app.listen(3001, () => console.log("app listening on 3001"));
